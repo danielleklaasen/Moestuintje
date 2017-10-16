@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">My Garden</string>
+    <string name="action_settings">Add custom plant</string>
+
+    <!-- Navigational strings -->
+    <string-array name="tab_titles">
+        <item>My Garden</item>
+        <item>Harvest</item>
+        <item>Tips</item>
+    </string-array>
+
+    <!-- Activity titles -->
+    <string name="title_activity_plants">Add a plant</string>
+</resources>
