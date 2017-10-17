@@ -1,4 +1,4 @@
-package com.danielleklaasen.moestuintje;
+package com.danielleklaasen.moestuintje.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.danielleklaasen.moestuintje.R;
 import com.danielleklaasen.moestuintje.model.PlantItem;
 
 import java.io.IOException;

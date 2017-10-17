@@ -1,13 +1,12 @@
 // Converts items to something visual
 
-package com.danielleklaasen.moestuintje;
+package com.danielleklaasen.moestuintje.adapters;
 
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +14,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.danielleklaasen.moestuintje.MainActivity;
+import com.danielleklaasen.moestuintje.R;
 import com.danielleklaasen.moestuintje.database.PlantDataSource;
 import com.danielleklaasen.moestuintje.model.PlantItem;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-
-import javax.sql.DataSource;
 
 import static java.lang.Integer.parseInt;
 
@@ -35,8 +34,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private Context mContext;
 
     public RecyclerViewAdapter(Context context, List<PlantItem> items) {
-        this.mContext = context;
-        this.mItems = items;
+        this.mContext = context; // activity
+        this.mItems = items; // list from db
     }
 
     @Override
@@ -49,23 +48,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerViewAdapter.ViewHolder viewHolder, int position) {
         // method is called each time the adapter encounters a new dataItem that it needs to display
         // here you supply data you want to display to the user
         final PlantItem item = mItems.get(position); // get value from list of items
 
+        viewHolder.tvName.setText(item.getItemName());
+
         try {
-            holder.tvName.setText(item.getItemName());
             String imageFile = item.getImage();
-            Log.d("debug", imageFile);
             InputStream inputStream = mContext.getAssets().open(imageFile);
             Drawable d = Drawable.createFromStream(inputStream, null);
-            holder.imageView.setImageDrawable(d);
+            viewHolder.imageView.setImageDrawable(d);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Toast.makeText(mContext, "You added " + item.getItemName(), Toast.LENGTH_SHORT).show();
@@ -83,7 +82,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             }
         });
 
-        holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
+        viewHolder.mView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 //delete row by itemId

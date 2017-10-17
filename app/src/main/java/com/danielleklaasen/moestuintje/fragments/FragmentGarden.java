@@ -1,4 +1,4 @@
-package com.danielleklaasen.moestuintje;
+package com.danielleklaasen.moestuintje.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.danielleklaasen.moestuintje.adapters.GridAdapter;
+import com.danielleklaasen.moestuintje.R;
 import com.danielleklaasen.moestuintje.database.PlantDataSource;
 import com.danielleklaasen.moestuintje.model.PlantItem;
 
@@ -24,15 +26,17 @@ public class FragmentGarden extends Fragment {
     }
 
     public static FragmentGarden newInstance(int page) {  // gets called from numbers of tabs
+        // static method to reuse the fragment
         FragmentGarden fragment = new FragmentGarden(); // new page
-        Bundle args = new Bundle(); // define new page bundle
-        args.putInt(ARG_PAGE_NUMBER, page); // ADD page content
-        fragment.setArguments(args); // SET page content
+        Bundle args = new Bundle();
+        args.putInt(ARG_PAGE_NUMBER, page); // page number from passed through int, for tab layout
+        fragment.setArguments(args);
         return fragment;
     }
 
     GridView gridView;
     PlantDataSource mPlantDataSource;
+    List<PlantItem> listFromDB;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,24 +46,16 @@ public class FragmentGarden extends Fragment {
         mPlantDataSource = new PlantDataSource(getActivity());
         mPlantDataSource.open();
         mPlantDataSource.seedDatabase(dataItemList);
+        listFromDB = mPlantDataSource.getAllItems("myGarden");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Bundle bundle = getArguments(); do something with this later
 
         // set up page from fragment_page_layout xml file
         View rootView = inflater.inflate(R.layout.fragment_garden_layout, container, false);
-        //View rootView = inflater.inflate(R.layout.fragment_page_layout, container, false);
-
-
-        // find textview from file by id
-      //  TextView txt = (TextView) rootView.findViewById(R.id.page_number_label);
-         // set text
-      //  txt.setText("Nothing in garden");
-
-
-        List<PlantItem> listFromDB = mPlantDataSource.getAllItems("myGarden");
         // Initialise the GridView
         // data source for grid view NEW
 
@@ -69,6 +65,5 @@ public class FragmentGarden extends Fragment {
 
         // complete page
         return rootView;
-
     }
 }

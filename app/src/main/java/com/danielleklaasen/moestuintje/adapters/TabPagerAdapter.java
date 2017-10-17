@@ -1,13 +1,14 @@
-package com.danielleklaasen.moestuintje;
+package com.danielleklaasen.moestuintje.adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
 
-import java.util.Locale;
+import com.danielleklaasen.moestuintje.R;
+import com.danielleklaasen.moestuintje.fragments.FragmentGarden;
+import com.danielleklaasen.moestuintje.fragments.FragmentHarvest;
+import com.danielleklaasen.moestuintje.fragments.FragmentTips;
 
 public class TabPagerAdapter extends FragmentPagerAdapter {
 

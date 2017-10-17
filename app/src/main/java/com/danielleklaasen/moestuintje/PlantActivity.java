@@ -5,12 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 
+import com.danielleklaasen.moestuintje.adapters.RecyclerViewAdapter;
 import com.danielleklaasen.moestuintje.database.PlantDataSource;
 import com.danielleklaasen.moestuintje.model.PlantItem;
 
 import java.util.List;
-
-import javax.sql.DataSource;
 
 import static com.danielleklaasen.moestuintje.plants.PlantsDataProvider.dataItemList;
 
