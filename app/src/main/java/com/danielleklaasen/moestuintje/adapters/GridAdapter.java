@@ -49,15 +49,7 @@ public class GridAdapter extends BaseAdapter {
         final ImageView imageView = (ImageView)convertView.findViewById(R.id.plantImageView);
         final TextView nameTextView = (TextView)convertView.findViewById(R.id.nameTextView);
 
-        try {
-            nameTextView.setText(item.getItemName());
-            String imageFile = item.getImage();
-            InputStream inputStream = mContext.getAssets().open(imageFile);
-            Drawable d = Drawable.createFromStream(inputStream, null);
-            imageView.setImageDrawable(d);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        nameTextView.setText(item.getItemName());
 
         return convertView;
     }

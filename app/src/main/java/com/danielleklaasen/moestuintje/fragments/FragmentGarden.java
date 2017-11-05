@@ -17,7 +17,7 @@ import com.danielleklaasen.moestuintje.model.PlantItem;
 import java.util.List;
 
 import static com.danielleklaasen.moestuintje.R.id.gridviewContainer;
-import static com.danielleklaasen.moestuintje.plants.PlantsDataProvider.dataItemList;
+import static com.danielleklaasen.moestuintje.plants.PlantsDataProvider.plantItemList;
 
 public class FragmentGarden extends Fragment {
     private static final String ARG_PAGE_NUMBER = "page_number";
@@ -45,7 +45,7 @@ public class FragmentGarden extends Fragment {
         // Database connection
         mPlantDataSource = new PlantDataSource(getActivity());
         mPlantDataSource.open();
-        mPlantDataSource.seedDatabase(dataItemList);
+        mPlantDataSource.seedDatabase(plantItemList);
         listFromDB = mPlantDataSource.getAllItems("myGarden");
     }
 

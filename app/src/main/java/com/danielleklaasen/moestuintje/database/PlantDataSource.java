@@ -15,7 +15,7 @@ import java.util.List;
 public class PlantDataSource {
     private Context mContext;
     private SQLiteDatabase mDatabase;
-    SQLiteOpenHelper mDbHelper; // m = member of calss
+    private SQLiteOpenHelper mDbHelper; // m = member of calss
 
     public PlantDataSource(Context context) {
         this.mContext = context; // context can be activity
@@ -63,25 +63,14 @@ public class PlantDataSource {
         Cursor cursor;
         cursor = null;
 
-        if (myGarden == null){
-            // display all
-            cursor = mDatabase.query(PlantTable.TABLE_ITEMS, PlantTable.ALL_COLUMNS,
-                    null, null, null, null, PlantTable.COLUMN_NAME);
-        }else{
-            // display only in garden
-
-            // select * from items where inGarden = 'true';
-            cursor = mDatabase.query(PlantTable.TABLE_ITEMS, PlantTable.ALL_COLUMNS,
-                    PlantTable.COLUMN_IN_GARDEN + "=?", new String[] {"true"}, null, null, PlantTable.COLUMN_NAME);
-        }
+        cursor = mDatabase.query(PlantTable.TABLE_ITEMS, PlantTable.ALL_COLUMNS,
+                null, null, null, null, PlantTable.COLUMN_NAME);
 
         while (cursor.moveToNext()) {
             PlantItem item = new PlantItem();
             item.setItemId(cursor.getString(cursor.getColumnIndex(PlantTable.COLUMN_ID)));
             item.setItemName(cursor.getString(cursor.getColumnIndex(PlantTable.COLUMN_NAME)));
-            item.setInGarden(cursor.getInt(cursor.getColumnIndex(PlantTable.COLUMN_IN_GARDEN)));
-            item.setImage(cursor.getString(cursor.getColumnIndex(PlantTable.COLUMN_IMAGE)));
-            item.setCategory(cursor.getString(cursor.getColumnIndex(PlantTable.COLUMN_CATEGORY))); // added column
+            item.setImage(cursor.getInt(cursor.getColumnIndex(PlantTable.COLUMN_IMAGE)));
             PlantItems.add(item);
         }
         cursor.close();
@@ -93,7 +82,6 @@ public class PlantDataSource {
         ContentValues contentValues = new ContentValues();
         //  contentValues.put(PlantTable.COLUMN_ID, id);
         //  contentValues.put(PlantTable.COLUMN_NAME, name);
-        contentValues.put(PlantTable.COLUMN_IN_GARDEN,"true");
         //   contentValues.put(PlantTable.COLUMN_IMAGE, image);
         //   contentValues.put(PlantTable.COLUMN_CATEGORY, category);
         mDatabase.update(PlantTable.TABLE_ITEMS, contentValues, PlantTable.COLUMN_ID + " = ?",new String[] { id });

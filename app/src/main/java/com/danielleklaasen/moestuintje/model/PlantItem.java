@@ -12,16 +12,12 @@ public class PlantItem implements Parcelable {
 
     private String itemId; // primary key, generate as uuid (universal unique id's)
     private String itemName;
-    private int inGarden;
-    private String image;
-
-    // added column
-    private String category;
+    private int image;
 
     public PlantItem() {
     }
 
-    public PlantItem(String itemId, String itemName, int inGarden, String image, String category) { // added column
+    public PlantItem(String itemId, String itemName, int image) {
 
         if (itemId == null){ // assign random Id, always unique id.
             itemId = UUID.randomUUID().toString();
@@ -29,18 +25,8 @@ public class PlantItem implements Parcelable {
 
         this.itemId = itemId;
         this.itemName = itemName;
-        this.inGarden = inGarden;
         this.image = image;
-        // added column
-        this.category = category;
-    }
 
-    public int getInGarden() {
-        return inGarden;
-    }
-
-    public void setInGarden(int inGarden) {
-        this.inGarden = inGarden;
     }
 
     public String getItemId() {
@@ -59,34 +45,21 @@ public class PlantItem implements Parcelable {
         this.itemName = itemName;
     }
 
-    public String getImage() {
+    public int getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(int image) {
         this.image = image;
-    }
-
-    // added column
-
-    public String getCategory() {return category;}
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 
     public ContentValues toValues() {
         //ContentValues values = new ContentValues(4); // 4 columns, id, name, inGarden, image
-        ContentValues values = new ContentValues(5); // 4 columns, id, name, inGarden, image, category
+        ContentValues values = new ContentValues(3); // 3 columns, id, name, image
 
         values.put(PlantTable.COLUMN_ID, itemId);
         values.put(PlantTable.COLUMN_NAME, itemName);
-        values.put(PlantTable.COLUMN_IN_GARDEN, inGarden);
         values.put(PlantTable.COLUMN_IMAGE, image);
-
-        // added column
-        values.put(PlantTable.COLUMN_CATEGORY, category);
-
 
         return values;
     }
@@ -96,9 +69,7 @@ public class PlantItem implements Parcelable {
         return "PlantItem{" +
                 "itemId='" + itemId + '\'' +
                 ", itemName='" + itemName + '\'' +
-                ", inGarden=" + inGarden + '\'' +
                 ", image=" + image + '\'' +
-                ", category=" + category + // added column
                 '}';
     }
 
@@ -112,21 +83,13 @@ public class PlantItem implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.itemId);
         dest.writeString(this.itemName);
-        dest.writeInt(this.inGarden);
-        dest.writeString(this.image);
-
-        // added column
-        dest.writeString(this.category);
+        dest.writeInt(this.image);
     }
 
     protected PlantItem(Parcel in) {
         this.itemId = in.readString();
         this.itemName = in.readString();
-        this.inGarden = in.readInt();
-        this.image = in.readString();
-
-        // added column
-        this.category = in.readString();
+        this.image = in.readInt();
     }
 
     public static final Parcelable.Creator<PlantItem> CREATOR = new Parcelable.Creator<PlantItem>() {

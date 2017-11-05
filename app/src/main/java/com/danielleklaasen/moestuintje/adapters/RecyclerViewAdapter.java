@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,7 @@ import static java.lang.Integer.parseInt;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     // sets its generic as a subclass / member class: viewHolder
 
-    public static final String ITEM_KEY = "item_key";
+   // public static final String ITEM_KEY = "item_key";
 
     private List<PlantItem> mItems;
     private Context mContext;
@@ -55,29 +56,28 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         viewHolder.tvName.setText(item.getItemName());
 
-        try {
-            String imageFile = item.getImage();
-            InputStream inputStream = mContext.getAssets().open(imageFile);
-            Drawable d = Drawable.createFromStream(inputStream, null);
-            viewHolder.imageView.setImageDrawable(d);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // set image source
+        //int imageFile = R.drawable.garlic; //item.getImage();
+        int imageFile = item.getImage();
+        viewHolder.imageView.setImageResource(imageFile);
 
         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Toast.makeText(mContext, "You added " + item.getItemName(), Toast.LENGTH_SHORT).show();
 
-                // update value in column inGarden to true (1)
+                // MAKE THIS: create item in table Garden
+
+                // UPDATE EXAMPLE CODE
+                /*
                 PlantDataSource mPlantDataSource;
                 mPlantDataSource = new PlantDataSource(mContext);
                 mPlantDataSource.open();
-                mPlantDataSource.setInGarden(item.getItemId(), item.getItemName(), item.getInGarden(), item.getImage(), item.getCategory());
+                mPlantDataSource.setInGarden(item.getItemId(), item.getItemName(), item.getInGarden(), item.getImage(), item.getCategory()); */
 
                 // String itemId = item.getItemId();
                 Intent intent = new Intent(mContext, MainActivity.class); // send data to main activity class
-                intent.putExtra(ITEM_KEY, item);
+               // intent.putExtra(ITEM_KEY, item);
                 mContext.startActivity(intent);
             }
         });
@@ -85,13 +85,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.mView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+
+                // DELETE EXAMPLE CODE
                 //delete row by itemId
-                PlantDataSource mPlantDataSource;
+                /*PlantDataSource mPlantDataSource;
                 mPlantDataSource = new PlantDataSource(mContext);
                 mPlantDataSource.open();
                 mPlantDataSource.deleteItem(item.getItemId());
 
-                Toast.makeText(mContext, "You deleted " + item.getItemName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "You deleted " + item.getItemName(), Toast.LENGTH_SHORT).show();*/
+
                 return false;
             }
         });

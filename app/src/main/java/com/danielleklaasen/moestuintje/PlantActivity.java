@@ -11,7 +11,7 @@ import com.danielleklaasen.moestuintje.model.PlantItem;
 
 import java.util.List;
 
-import static com.danielleklaasen.moestuintje.plants.PlantsDataProvider.dataItemList;
+import static com.danielleklaasen.moestuintje.plants.PlantsDataProvider.plantItemList;
 
 public class PlantActivity extends AppCompatActivity{
 
@@ -24,7 +24,7 @@ public class PlantActivity extends AppCompatActivity{
         // database
         mPlantDataSource = new PlantDataSource(this);
         mPlantDataSource.open();
-        mPlantDataSource.seedDatabase(dataItemList);
+        mPlantDataSource.seedDatabase(plantItemList);
 
         List<PlantItem> listFromDB = mPlantDataSource.getAllItems(null);
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, listFromDB);
