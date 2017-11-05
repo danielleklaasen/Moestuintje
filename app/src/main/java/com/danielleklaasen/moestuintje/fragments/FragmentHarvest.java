@@ -35,7 +35,7 @@ public class FragmentHarvest extends Fragment {
         TextView txt = (TextView) rootView.findViewById(R.id.page_number_label);
 
         // set text
-        txt.setText("Nothing to harvest.");
+        txt.setText("Add plants to receive harvest notifications.");
 
         // complete page
         return rootView;
