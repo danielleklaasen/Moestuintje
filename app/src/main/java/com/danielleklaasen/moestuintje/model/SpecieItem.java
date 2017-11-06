@@ -4,20 +4,20 @@ import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.danielleklaasen.moestuintje.database.PlantTable;
+import com.danielleklaasen.moestuintje.database.SpecieTable;
 
 import java.util.UUID;
 
-public class PlantItem implements Parcelable {
+public class SpecieItem implements Parcelable {
 
     private String itemId; // primary key, generate as uuid (universal unique id's)
     private String itemName;
     private int image;
 
-    public PlantItem() {
+    public SpecieItem() {
     }
 
-    public PlantItem(String itemId, String itemName, int image) {
+    public SpecieItem(String itemId, String itemName, int image) {
 
         if (itemId == null){ // assign random Id, always unique id.
             itemId = UUID.randomUUID().toString();
@@ -57,16 +57,16 @@ public class PlantItem implements Parcelable {
         //ContentValues values = new ContentValues(4); // 4 columns, id, name, inGarden, image
         ContentValues values = new ContentValues(3); // 3 columns, id, name, image
 
-        values.put(PlantTable.COLUMN_ID, itemId);
-        values.put(PlantTable.COLUMN_NAME, itemName);
-        values.put(PlantTable.COLUMN_IMAGE, image);
+        values.put(SpecieTable.COLUMN_ID, itemId);
+        values.put(SpecieTable.COLUMN_NAME, itemName);
+        values.put(SpecieTable.COLUMN_IMAGE, image);
 
         return values;
     }
 
     @Override
     public String toString() {
-        return "PlantItem{" +
+        return "SpecieItem{" +
                 "itemId='" + itemId + '\'' +
                 ", itemName='" + itemName + '\'' +
                 ", image=" + image + '\'' +
@@ -86,21 +86,21 @@ public class PlantItem implements Parcelable {
         dest.writeInt(this.image);
     }
 
-    protected PlantItem(Parcel in) {
+    protected SpecieItem(Parcel in) {
         this.itemId = in.readString();
         this.itemName = in.readString();
         this.image = in.readInt();
     }
 
-    public static final Parcelable.Creator<PlantItem> CREATOR = new Parcelable.Creator<PlantItem>() {
+    public static final Parcelable.Creator<SpecieItem> CREATOR = new Parcelable.Creator<SpecieItem>() {
         @Override
-        public PlantItem createFromParcel(Parcel source) {
-            return new PlantItem(source);
+        public SpecieItem createFromParcel(Parcel source) {
+            return new SpecieItem(source);
         }
 
         @Override
-        public PlantItem[] newArray(int size) {
-            return new PlantItem[size];
+        public SpecieItem[] newArray(int size) {
+            return new SpecieItem[size];
         }
     };
 }

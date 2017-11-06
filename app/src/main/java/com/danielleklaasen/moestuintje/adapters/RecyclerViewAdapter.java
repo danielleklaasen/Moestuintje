@@ -5,7 +5,6 @@ package com.danielleklaasen.moestuintje.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,11 +16,12 @@ import android.widget.Toast;
 
 import com.danielleklaasen.moestuintje.MainActivity;
 import com.danielleklaasen.moestuintje.R;
-import com.danielleklaasen.moestuintje.database.PlantDataSource;
-import com.danielleklaasen.moestuintje.model.PlantItem;
+import com.danielleklaasen.moestuintje.database.CultivatedPlantDataSource;
+import com.danielleklaasen.moestuintje.model.CultivatedPlantItem;
+import com.danielleklaasen.moestuintje.model.SpecieItem;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static java.lang.Integer.parseInt;
@@ -29,12 +29,11 @@ import static java.lang.Integer.parseInt;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     // sets its generic as a subclass / member class: viewHolder
 
-   // public static final String ITEM_KEY = "item_key";
-
-    private List<PlantItem> mItems;
+    // public static final String ITEM_KEY = "item_key";
+    private List<SpecieItem> mItems;
     private Context mContext;
 
-    public RecyclerViewAdapter(Context context, List<PlantItem> items) {
+    public RecyclerViewAdapter(Context context, List<SpecieItem> items) {
         this.mContext = context; // activity
         this.mItems = items; // list from db
     }
@@ -52,32 +51,29 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(RecyclerViewAdapter.ViewHolder viewHolder, int position) {
         // method is called each time the adapter encounters a new dataItem that it needs to display
         // here you supply data you want to display to the user
-        final PlantItem item = mItems.get(position); // get value from list of items
+        final SpecieItem item = mItems.get(position); // get value from list of items
 
+        // set text + img from db
         viewHolder.tvName.setText(item.getItemName());
-
-        // set image source
-        //int imageFile = R.drawable.garlic; //item.getImage();
-        int imageFile = item.getImage();
-        viewHolder.imageView.setImageResource(imageFile);
+        viewHolder.imageView.setImageResource(item.getImage());
 
         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Toast.makeText(mContext, "You added " + item.getItemName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "You added " + item.getItemName(), Toast.LENGTH_SHORT).show();
 
-                // MAKE THIS: create item in table Garden
+                // create item in table CultivatedPlant
+                CultivatedPlantDataSource mCultivatedPlantDataSource;
+                mCultivatedPlantDataSource = new CultivatedPlantDataSource(mContext);
+                mCultivatedPlantDataSource.open();
 
-                // UPDATE EXAMPLE CODE
-                /*
-                PlantDataSource mPlantDataSource;
-                mPlantDataSource = new PlantDataSource(mContext);
-                mPlantDataSource.open();
-                mPlantDataSource.setInGarden(item.getItemId(), item.getItemName(), item.getInGarden(), item.getImage(), item.getCategory()); */
+                // to do: IF id != in table, execute code below, else toast: you already added, item.getItemName()
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                String format = simpleDateFormat.format(new Date());
+                CultivatedPlantItem cultivatedPlantItem = new CultivatedPlantItem(item.getItemId(), format);
+                mCultivatedPlantDataSource.createItem(cultivatedPlantItem); // add item to db
 
-                // String itemId = item.getItemId();
-                Intent intent = new Intent(mContext, MainActivity.class); // send data to main activity class
-               // intent.putExtra(ITEM_KEY, item);
+                Intent intent = new Intent(mContext, MainActivity.class); // go to main activity class
                 mContext.startActivity(intent);
             }
         });
@@ -85,16 +81,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.mView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-
-                // DELETE EXAMPLE CODE
-                //delete row by itemId
-                /*PlantDataSource mPlantDataSource;
-                mPlantDataSource = new PlantDataSource(mContext);
-                mPlantDataSource.open();
-                mPlantDataSource.deleteItem(item.getItemId());
-
-                Toast.makeText(mContext, "You deleted " + item.getItemName(), Toast.LENGTH_SHORT).show();*/
-
                 return false;
             }
         });

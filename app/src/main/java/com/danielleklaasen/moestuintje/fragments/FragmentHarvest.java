@@ -35,10 +35,17 @@ public class FragmentHarvest extends Fragment {
         TextView txt = (TextView) rootView.findViewById(R.id.page_number_label);
 
         // set text
-        txt.setText("Add plants to receive harvest notifications.");
+        txt.setText("Harvest");
 
         // complete page
         return rootView;
+
+        // UPDATE EXAMPLE CODE
+                /*
+                SpecieDataSource mPlantDataSource;
+                mPlantDataSource = new SpecieDataSource(mContext);
+                mPlantDataSource.open();
+                mPlantDataSource.setInGarden(item.getItemId(), item.getItemName(), item.getInGarden(), item.getImage(), item.getCategory()); */
 
     }
 }

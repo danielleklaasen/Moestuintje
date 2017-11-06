@@ -1,6 +1,8 @@
 package com.danielleklaasen.moestuintje;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -10,8 +12,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.danielleklaasen.moestuintje.adapters.TabPagerAdapter;
+import com.danielleklaasen.moestuintje.database.DBHelper;
+
+import static com.danielleklaasen.moestuintje.R.id.fab;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,12 +28,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //SQLiteOpenHelper dbHelper = new DBHelper(this);
+        //database = dbHelper.getWritableDatabase();
+        // Toast.makeText(this, "database acquired", Toast.LENGTH_SHORT).show();
+
         // ADD ITEMS BUTTON
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openPlantsList();
+                openSpeciesList();
             }
         });
 
@@ -64,8 +74,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void openPlantsList(){
-        Intent i = new Intent(MainActivity.this,PlantActivity.class);
+    private void openSpeciesList(){
+        Intent i = new Intent(MainActivity.this,SpecieActivity.class);
         startActivity(i);
     }
 

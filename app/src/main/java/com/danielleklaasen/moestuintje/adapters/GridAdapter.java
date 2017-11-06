@@ -1,7 +1,7 @@
 package com.danielleklaasen.moestuintje.adapters;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,17 +10,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.danielleklaasen.moestuintje.R;
-import com.danielleklaasen.moestuintje.model.PlantItem;
+import com.danielleklaasen.moestuintje.model.CultivatedPlantItem;
+import com.danielleklaasen.moestuintje.model.SpecieItem;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 public class GridAdapter extends BaseAdapter {
     private Context mContext;
-    private List<PlantItem> mItems;
+    private List<CultivatedPlantItem> mItems;
 
-    public GridAdapter(Context context, List<PlantItem> items) {
+    public GridAdapter(Context context, List<CultivatedPlantItem> items) {
         this.mContext = context;
         this.mItems = items;
     }
@@ -45,11 +44,15 @@ public class GridAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.grid_item_layout, null);
         }
 
-        final PlantItem item = mItems.get(position); // get value from list of items
+        final CultivatedPlantItem item = mItems.get(position); // get value from list of items
         final ImageView imageView = (ImageView)convertView.findViewById(R.id.plantImageView);
         final TextView nameTextView = (TextView)convertView.findViewById(R.id.nameTextView);
 
-        nameTextView.setText(item.getItemName());
+        Log.d("debug", item.getItemId());
+        // nameTextView.setText(item.getItemName());
+        nameTextView.setText("Garlic");
+        // imageView.setImageResource(item.getImage());
+        imageView.setImageResource(R.drawable.garlic);
 
         return convertView;
     }

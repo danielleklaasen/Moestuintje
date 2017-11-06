@@ -1,9 +1,9 @@
 package com.danielleklaasen.moestuintje.database;
 
-public class PlantTable {
-    public static final String TABLE_ITEMS = "plant";
-    public static final String COLUMN_ID = "plantId";
-    public static final String COLUMN_NAME = "plantName";
+public class SpecieTable {
+    public static final String TABLE_ITEMS = "specie";
+    public static final String COLUMN_ID = "specieId";
+    public static final String COLUMN_NAME = "name";
     public static final String COLUMN_IMAGE = "image";
 
     public static final String[] ALL_COLUMNS = {

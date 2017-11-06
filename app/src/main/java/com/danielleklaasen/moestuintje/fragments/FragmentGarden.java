@@ -8,16 +8,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.danielleklaasen.moestuintje.adapters.GridAdapter;
 import com.danielleklaasen.moestuintje.R;
-import com.danielleklaasen.moestuintje.database.PlantDataSource;
-import com.danielleklaasen.moestuintje.model.PlantItem;
+import com.danielleklaasen.moestuintje.data.CultivatedPlantDataProvider;
+import com.danielleklaasen.moestuintje.database.CultivatedPlantDataSource;
+import com.danielleklaasen.moestuintje.database.SpecieDataSource;
+import com.danielleklaasen.moestuintje.model.CultivatedPlantItem;
+import com.danielleklaasen.moestuintje.model.SpecieItem;
 
 import java.util.List;
 
 import static com.danielleklaasen.moestuintje.R.id.gridviewContainer;
-import static com.danielleklaasen.moestuintje.plants.PlantsDataProvider.plantItemList;
+import static com.danielleklaasen.moestuintje.data.CultivatedPlantDataProvider.cultivatedPlantItemList;
+import static com.danielleklaasen.moestuintje.data.SpecieDataProvider.specieItemList;
 
 public class FragmentGarden extends Fragment {
     private static final String ARG_PAGE_NUMBER = "page_number";
@@ -35,18 +40,18 @@ public class FragmentGarden extends Fragment {
     }
 
     GridView gridView;
-    PlantDataSource mPlantDataSource;
-    List<PlantItem> listFromDB;
+    CultivatedPlantDataSource mCultivatedPlantDataSource;
+    List<CultivatedPlantItem> listFromDB;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Database connection
-        mPlantDataSource = new PlantDataSource(getActivity());
-        mPlantDataSource.open();
-        mPlantDataSource.seedDatabase(plantItemList);
-        listFromDB = mPlantDataSource.getAllItems("myGarden");
+        mCultivatedPlantDataSource = new CultivatedPlantDataSource(getActivity());
+        mCultivatedPlantDataSource.open();
+        listFromDB = mCultivatedPlantDataSource.getAllItems(null);
+
     }
 
     @Override
@@ -56,14 +61,38 @@ public class FragmentGarden extends Fragment {
 
         // set up page from fragment_page_layout xml file
         View rootView = inflater.inflate(R.layout.fragment_garden_layout, container, false);
-        // Initialise the GridView
-        // data source for grid view NEW
 
+
+
+        // Initialise the GridView
         GridAdapter adapter = new GridAdapter(getActivity(), listFromDB);
         gridView = rootView.findViewById(gridviewContainer);
         gridView.setAdapter(adapter);
 
         // complete page
         return rootView;
+
+
+        // DELETE EXAMPLE CODE
+        //delete row by itemId
+                /*SpecieDataSource mPlantDataSource;
+                mPlantDataSource = new SpecieDataSource(mContext);
+                mPlantDataSource.open();
+                mPlantDataSource.deleteItem(item.getItemId());
+
+                Toast.makeText(mContext, "You deleted " + item.getItemName(), Toast.LENGTH_SHORT).show();*/
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mCultivatedPlantDataSource.close();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mCultivatedPlantDataSource.open();
     }
 }
