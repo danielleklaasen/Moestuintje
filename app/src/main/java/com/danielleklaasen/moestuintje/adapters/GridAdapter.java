@@ -1,12 +1,15 @@
 package com.danielleklaasen.moestuintje.adapters;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.support.design.widget.Snackbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,7 +19,11 @@ import com.danielleklaasen.moestuintje.database.CultivatedPlantDataSource;
 import com.danielleklaasen.moestuintje.database.SpecieDataSource;
 import com.danielleklaasen.moestuintje.model.CultivatedPlantItem;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static android.R.id.list;
 
 public class GridAdapter extends BaseAdapter {
     private Context mContext;
@@ -64,7 +71,10 @@ public class GridAdapter extends BaseAdapter {
                 mCultivatedPlantDataSource.open();
                 int image = R.drawable.potato;
 
-                mCultivatedPlantDataSource.changePicture(item.getItemId(), image);
+                mCultivatedPlantDataSource.changePicture(item.getItemId(), item.getItemName(), image, item.getCreatedAt());
+
+                ImageView thisImage = view.findViewById(R.id.plantImageView);
+                thisImage.setImageResource(image);
 
                 Toast.makeText(mContext, "Picture is changed", Toast.LENGTH_SHORT).show();
 

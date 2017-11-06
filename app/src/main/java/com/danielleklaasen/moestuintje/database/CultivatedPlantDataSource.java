@@ -71,9 +71,13 @@ public class CultivatedPlantDataSource {
     }
 
     // UPDATE
-    public int changePicture(String id, int image) {
+    public int changePicture(String id, String name, int image, String createdAt) {
         ContentValues contentValues = new ContentValues();
+        contentValues.put(CultivatedPlantTable.COLUMN_ID, id);
+        contentValues.put(CultivatedPlantTable.COLUMN_NAME, name);
         contentValues.put(CultivatedPlantTable.COLUMN_IMAGE, image);
+        contentValues.put(CultivatedPlantTable.COLUMN_CREATED_AT, createdAt);
+
         return mDatabase.update(CultivatedPlantTable.TABLE_ITEMS, contentValues, CultivatedPlantTable.COLUMN_ID + " = ?",new String[] { id });
     }
 
