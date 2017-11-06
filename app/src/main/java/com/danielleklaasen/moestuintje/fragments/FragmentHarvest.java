@@ -40,12 +40,5 @@ public class FragmentHarvest extends Fragment {
         // complete page
         return rootView;
 
-        // UPDATE EXAMPLE CODE
-                /*
-                SpecieDataSource mPlantDataSource;
-                mPlantDataSource = new SpecieDataSource(mContext);
-                mPlantDataSource.open();
-                mPlantDataSource.setInGarden(item.getItemId(), item.getItemName(), item.getInGarden(), item.getImage(), item.getCategory()); */
-
     }
 }

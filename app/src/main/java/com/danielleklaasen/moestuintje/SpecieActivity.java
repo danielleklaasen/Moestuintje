@@ -21,7 +21,7 @@ public class SpecieActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plant);
 
-        // database
+        // database connection
         mSpecieDataSource = new SpecieDataSource(this);
         mSpecieDataSource.open();
         mSpecieDataSource.seedDatabase(specieItemList);

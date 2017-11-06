@@ -88,8 +88,6 @@ public class SpecieDataSource {
         return true;
     }
 
-
-
     // DELETE
     public int deleteItem(String itemId ) {
         return mDatabase.delete(SpecieTable.TABLE_ITEMS, SpecieTable.COLUMN_ID + " = ?",new String[] {itemId});

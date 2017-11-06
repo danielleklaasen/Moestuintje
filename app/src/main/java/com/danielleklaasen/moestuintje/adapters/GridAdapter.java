@@ -1,6 +1,7 @@
 package com.danielleklaasen.moestuintje.adapters;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,10 +9,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.danielleklaasen.moestuintje.R;
+import com.danielleklaasen.moestuintje.database.CultivatedPlantDataSource;
+import com.danielleklaasen.moestuintje.database.SpecieDataSource;
 import com.danielleklaasen.moestuintje.model.CultivatedPlantItem;
-import com.danielleklaasen.moestuintje.model.SpecieItem;
 
 import java.util.List;
 
@@ -37,7 +40,7 @@ public class GridAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
@@ -48,14 +51,51 @@ public class GridAdapter extends BaseAdapter {
         final ImageView imageView = (ImageView)convertView.findViewById(R.id.plantImageView);
         final TextView nameTextView = (TextView)convertView.findViewById(R.id.nameTextView);
 
-        Log.d("debug", item.getItemId());
-        // nameTextView.setText(item.getItemName());
-        nameTextView.setText("Garlic");
-        // imageView.setImageResource(item.getImage());
-        imageView.setImageResource(R.drawable.garlic);
+        nameTextView.setText(item.getItemName());
+        imageView.setImageResource(item.getImage());
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // UPDATE CODE
+                CultivatedPlantDataSource mCultivatedPlantDataSource;
+                mCultivatedPlantDataSource = new CultivatedPlantDataSource(mContext);
+                mCultivatedPlantDataSource.open();
+                int image = R.drawable.potato;
+
+                mCultivatedPlantDataSource.changePicture(item.getItemId(), image);
+
+                Toast.makeText(mContext, "Picture is changed", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        convertView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                // delete row by itemId
+                CultivatedPlantDataSource mCultivatedPlantDataSource;
+                mCultivatedPlantDataSource = new CultivatedPlantDataSource(mContext);
+                mCultivatedPlantDataSource.open();
+                mCultivatedPlantDataSource.deleteItem(item.getItemId());
+
+                Toast.makeText(mContext, item.getItemName() + " is deleted", Toast.LENGTH_SHORT).show(); // user feedback
+                removeItem(position);
+                return false;
+            }
+        });
 
         return convertView;
     }
+
+    public void removeItem(int position){
+        mItems.remove(position);
+        notifyDataSetChanged();
+    }
+
+
 
 
 }

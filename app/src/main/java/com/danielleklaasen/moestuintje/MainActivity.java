@@ -79,9 +79,4 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    // SNACK BAR TEMPLATE
-    /*
-    * Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-    * */
 }

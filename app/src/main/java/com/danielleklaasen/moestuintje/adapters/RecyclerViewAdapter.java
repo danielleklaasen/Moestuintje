@@ -67,10 +67,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 mCultivatedPlantDataSource = new CultivatedPlantDataSource(mContext);
                 mCultivatedPlantDataSource.open();
 
-                // to do: IF id != in table, execute code below, else toast: you already added, item.getItemName()
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
                 String format = simpleDateFormat.format(new Date());
-                CultivatedPlantItem cultivatedPlantItem = new CultivatedPlantItem(item.getItemId(), format);
+                CultivatedPlantItem cultivatedPlantItem = new CultivatedPlantItem(null, item.getItemName(), item.getImage(), format);
                 mCultivatedPlantDataSource.createItem(cultivatedPlantItem); // add item to db
 
                 Intent intent = new Intent(mContext, MainActivity.class); // go to main activity class

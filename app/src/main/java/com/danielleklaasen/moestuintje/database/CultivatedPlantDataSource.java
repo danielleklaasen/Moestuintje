@@ -53,23 +53,33 @@ public class CultivatedPlantDataSource {
         cursor = null;
 
         cursor = mDatabase.query(CultivatedPlantTable.TABLE_ITEMS, CultivatedPlantTable.ALL_COLUMNS,
-                null, null, null, null, CultivatedPlantTable.CREATED_AT);
+                null, null, null, null, CultivatedPlantTable.COLUMN_NAME);
 
         while (cursor.moveToNext()) {
             CultivatedPlantItem item = new CultivatedPlantItem();
             item.setItemId(cursor.getString(cursor.getColumnIndex(CultivatedPlantTable.COLUMN_ID)));
-            item.setCreatedAt(cursor.getString(cursor.getColumnIndex(CultivatedPlantTable.CREATED_AT)));
+            item.setItemName(cursor.getString(cursor.getColumnIndex(CultivatedPlantTable.COLUMN_NAME)));
+            item.setImage(cursor.getInt(cursor.getColumnIndex(CultivatedPlantTable.COLUMN_IMAGE)));
+            item.setCreatedAt(cursor.getString(cursor.getColumnIndex(CultivatedPlantTable.COLUMN_CREATED_AT)));
 
             // need to add values accessed through foreign key.
             CultivatedPlantItems.add(item);
         }
         cursor.close();
 
-
-
         return CultivatedPlantItems;
     }
 
-    //
+    // UPDATE
+    public int changePicture(String id, int image) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(CultivatedPlantTable.COLUMN_IMAGE, image);
+        return mDatabase.update(CultivatedPlantTable.TABLE_ITEMS, contentValues, CultivatedPlantTable.COLUMN_ID + " = ?",new String[] { id });
+    }
+
+    // DELETE
+    public int deleteItem(String itemId ) {
+        return mDatabase.delete(CultivatedPlantTable.TABLE_ITEMS, CultivatedPlantTable.COLUMN_ID + " = ?",new String[] {itemId});
+    }
 
 }

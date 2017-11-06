@@ -8,21 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.danielleklaasen.moestuintje.adapters.GridAdapter;
 import com.danielleklaasen.moestuintje.R;
-import com.danielleklaasen.moestuintje.data.CultivatedPlantDataProvider;
 import com.danielleklaasen.moestuintje.database.CultivatedPlantDataSource;
-import com.danielleklaasen.moestuintje.database.SpecieDataSource;
 import com.danielleklaasen.moestuintje.model.CultivatedPlantItem;
-import com.danielleklaasen.moestuintje.model.SpecieItem;
 
 import java.util.List;
 
 import static com.danielleklaasen.moestuintje.R.id.gridviewContainer;
-import static com.danielleklaasen.moestuintje.data.CultivatedPlantDataProvider.cultivatedPlantItemList;
-import static com.danielleklaasen.moestuintje.data.SpecieDataProvider.specieItemList;
 
 public class FragmentGarden extends Fragment {
     private static final String ARG_PAGE_NUMBER = "page_number";
@@ -50,19 +44,18 @@ public class FragmentGarden extends Fragment {
         // Database connection
         mCultivatedPlantDataSource = new CultivatedPlantDataSource(getActivity());
         mCultivatedPlantDataSource.open();
-        listFromDB = mCultivatedPlantDataSource.getAllItems(null);
 
+        listFromDB = mCultivatedPlantDataSource.getAllItems(null);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Bundle bundle = getArguments(); do something with this later
 
         // set up page from fragment_page_layout xml file
         View rootView = inflater.inflate(R.layout.fragment_garden_layout, container, false);
-
-
 
         // Initialise the GridView
         GridAdapter adapter = new GridAdapter(getActivity(), listFromDB);
@@ -71,16 +64,6 @@ public class FragmentGarden extends Fragment {
 
         // complete page
         return rootView;
-
-
-        // DELETE EXAMPLE CODE
-        //delete row by itemId
-                /*SpecieDataSource mPlantDataSource;
-                mPlantDataSource = new SpecieDataSource(mContext);
-                mPlantDataSource.open();
-                mPlantDataSource.deleteItem(item.getItemId());
-
-                Toast.makeText(mContext, "You deleted " + item.getItemName(), Toast.LENGTH_SHORT).show();*/
 
     }
 
