@@ -21,7 +21,6 @@ import com.danielleklaasen.moestuintje.model.CultivatedPlantItem;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static android.R.id.list;
 
