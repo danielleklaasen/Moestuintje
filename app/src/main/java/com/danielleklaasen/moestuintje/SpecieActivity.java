@@ -6,27 +6,27 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 
 import com.danielleklaasen.moestuintje.adapters.RecyclerViewAdapter;
-import com.danielleklaasen.moestuintje.database.PlantDataSource;
-import com.danielleklaasen.moestuintje.model.PlantItem;
+import com.danielleklaasen.moestuintje.database.SpecieDataSource;
+import com.danielleklaasen.moestuintje.model.SpecieItem;
 
 import java.util.List;
 
-import static com.danielleklaasen.moestuintje.plants.PlantsDataProvider.dataItemList;
+import static com.danielleklaasen.moestuintje.data.SpecieDataProvider.specieItemList;
 
-public class PlantActivity extends AppCompatActivity{
+public class SpecieActivity extends AppCompatActivity{
 
-    PlantDataSource mPlantDataSource;
+    SpecieDataSource mSpecieDataSource;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plant);
 
-        // database
-        mPlantDataSource = new PlantDataSource(this);
-        mPlantDataSource.open();
-        mPlantDataSource.seedDatabase(dataItemList);
+        // database connection
+        mSpecieDataSource = new SpecieDataSource(this);
+        mSpecieDataSource.open();
+        mSpecieDataSource.seedDatabase(specieItemList); // seed Database, if there is nothing in it yet
 
-        List<PlantItem> listFromDB = mPlantDataSource.getAllItems(null);
+        List<SpecieItem> listFromDB = mSpecieDataSource.getAllItems(null);
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, listFromDB);
 
         // feed list from database to recyclerview
@@ -45,4 +45,15 @@ public class PlantActivity extends AppCompatActivity{
         return true;
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSpecieDataSource.close(); // prevent data leaks
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSpecieDataSource.open();
+    }
 }

@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PlantActivity"
+            android:name=".SpecieActivity"
             android:label="@string/title_activity_plants" />
     </application>
 

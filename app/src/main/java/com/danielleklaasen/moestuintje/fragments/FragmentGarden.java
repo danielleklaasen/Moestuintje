@@ -11,13 +11,12 @@ import android.widget.GridView;
 
 import com.danielleklaasen.moestuintje.adapters.GridAdapter;
 import com.danielleklaasen.moestuintje.R;
-import com.danielleklaasen.moestuintje.database.PlantDataSource;
-import com.danielleklaasen.moestuintje.model.PlantItem;
+import com.danielleklaasen.moestuintje.database.CultivatedPlantDataSource;
+import com.danielleklaasen.moestuintje.model.CultivatedPlantItem;
 
 import java.util.List;
 
 import static com.danielleklaasen.moestuintje.R.id.gridviewContainer;
-import static com.danielleklaasen.moestuintje.plants.PlantsDataProvider.dataItemList;
 
 public class FragmentGarden extends Fragment {
     private static final String ARG_PAGE_NUMBER = "page_number";
@@ -35,18 +34,18 @@ public class FragmentGarden extends Fragment {
     }
 
     GridView gridView;
-    PlantDataSource mPlantDataSource;
-    List<PlantItem> listFromDB;
+    CultivatedPlantDataSource mCultivatedPlantDataSource;
+    List<CultivatedPlantItem> listFromDB;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Database connection
-        mPlantDataSource = new PlantDataSource(getActivity());
-        mPlantDataSource.open();
-        mPlantDataSource.seedDatabase(dataItemList);
-        listFromDB = mPlantDataSource.getAllItems("myGarden");
+        // Database connection to cultivatedplant table
+        mCultivatedPlantDataSource = new CultivatedPlantDataSource(getActivity());
+        mCultivatedPlantDataSource.open();
+
+        listFromDB = mCultivatedPlantDataSource.getAllItems(null);
     }
 
     @Override
@@ -56,14 +55,26 @@ public class FragmentGarden extends Fragment {
 
         // set up page from fragment_page_layout xml file
         View rootView = inflater.inflate(R.layout.fragment_garden_layout, container, false);
-        // Initialise the GridView
-        // data source for grid view NEW
 
-        GridAdapter adapter = new GridAdapter(getActivity(), listFromDB);
+        // Initialise the GridView
+        GridAdapter adapter = new GridAdapter(getActivity(), listFromDB); // instantiate adapter and feed db items
         gridView = rootView.findViewById(gridviewContainer);
         gridView.setAdapter(adapter);
 
-        // complete page
+        // return complete page
         return rootView;
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mCultivatedPlantDataSource.close(); // prevent data leaks
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mCultivatedPlantDataSource.open(); // open connection again when resuming activity
     }
 }

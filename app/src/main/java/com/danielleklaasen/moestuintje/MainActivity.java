@@ -22,16 +22,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // ADD ITEMS BUTTON
+        // FLOATING ACTION BUTTON
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openPlantsList();
+                openSpeciesList();
             }
         });
 
-        // SET TAB LAYOUT
+        // TAB LAYOUT
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout); // navigational tabs
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager); // the content pages
         TabPagerAdapter adapter = new TabPagerAdapter(this, getSupportFragmentManager());
@@ -64,14 +64,10 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void openPlantsList(){
-        Intent i = new Intent(MainActivity.this,PlantActivity.class);
+    private void openSpeciesList(){
+        // go to specieActivity
+        Intent i = new Intent(MainActivity.this,SpecieActivity.class);
         startActivity(i);
     }
 
-    // SNACK BAR TEMPLATE
-    /*
-    * Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-    * */
 }

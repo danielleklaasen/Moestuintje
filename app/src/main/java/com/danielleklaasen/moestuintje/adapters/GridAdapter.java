@@ -1,26 +1,34 @@
 package com.danielleklaasen.moestuintje.adapters;
 
+import android.content.ContentValues;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.support.design.widget.Snackbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.danielleklaasen.moestuintje.R;
-import com.danielleklaasen.moestuintje.model.PlantItem;
+import com.danielleklaasen.moestuintje.database.CultivatedPlantDataSource;
+import com.danielleklaasen.moestuintje.database.SpecieDataSource;
+import com.danielleklaasen.moestuintje.model.CultivatedPlantItem;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
+
+import static android.R.id.list;
 
 public class GridAdapter extends BaseAdapter {
     private Context mContext;
-    private List<PlantItem> mItems;
+    private List<CultivatedPlantItem> mItems;
 
-    public GridAdapter(Context context, List<PlantItem> items) {
+    public GridAdapter(Context context, List<CultivatedPlantItem> items) {
         this.mContext = context;
         this.mItems = items;
     }
@@ -38,29 +46,65 @@ public class GridAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
             convertView = layoutInflater.inflate(R.layout.grid_item_layout, null);
         }
 
-        final PlantItem item = mItems.get(position); // get value from list of items
+        final CultivatedPlantItem item = mItems.get(position); // get value from list of items
         final ImageView imageView = (ImageView)convertView.findViewById(R.id.plantImageView);
         final TextView nameTextView = (TextView)convertView.findViewById(R.id.nameTextView);
 
-        try {
-            nameTextView.setText(item.getItemName());
-            String imageFile = item.getImage();
-            InputStream inputStream = mContext.getAssets().open(imageFile);
-            Drawable d = Drawable.createFromStream(inputStream, null);
-            imageView.setImageDrawable(d);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        nameTextView.setText(item.getItemName());
+        imageView.setImageResource(item.getImage());
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // UPDATE CODE
+                CultivatedPlantDataSource mCultivatedPlantDataSource;
+                mCultivatedPlantDataSource = new CultivatedPlantDataSource(mContext);
+                mCultivatedPlantDataSource.open();
+                int image = R.drawable.potato;
+
+                mCultivatedPlantDataSource.changePicture(item.getItemId(), item.getItemName(), image, item.getCreatedAt());
+
+                ImageView thisImage = view.findViewById(R.id.plantImageView);
+                thisImage.setImageResource(image);
+
+                Toast.makeText(mContext, "Picture is changed", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        convertView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                // delete row by itemId
+                CultivatedPlantDataSource mCultivatedPlantDataSource;
+                mCultivatedPlantDataSource = new CultivatedPlantDataSource(mContext);
+                mCultivatedPlantDataSource.open();
+                mCultivatedPlantDataSource.deleteItem(item.getItemId());
+
+                Toast.makeText(mContext, item.getItemName() + " is deleted", Toast.LENGTH_SHORT).show(); // user feedback
+                removeItem(position);
+                return false;
+            }
+        });
 
         return convertView;
     }
+
+    public void removeItem(int position){
+        mItems.remove(position);
+        notifyDataSetChanged();
+    }
+
+
 
 
 }
