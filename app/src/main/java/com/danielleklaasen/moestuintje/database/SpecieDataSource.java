@@ -77,19 +77,4 @@ public class SpecieDataSource {
         return PlantItems;
     }
 
-    // UPDATE
-    public boolean setInGarden(String id, String name, int inGarden, String image, String category ) {
-        ContentValues contentValues = new ContentValues();
-        //  contentValues.put(SpecieTable.COLUMN_ID, id);
-        //  contentValues.put(SpecieTable.COLUMN_NAME, name);
-        //   contentValues.put(SpecieTable.COLUMN_IMAGE, image);
-        mDatabase.update(SpecieTable.TABLE_ITEMS, contentValues, SpecieTable.COLUMN_ID + " = ?",new String[] { id });
-        // if id matches, set COLUMN_IN_GARDEN to true
-        return true;
-    }
-
-    // DELETE
-    public int deleteItem(String itemId ) {
-        return mDatabase.delete(SpecieTable.TABLE_ITEMS, SpecieTable.COLUMN_ID + " = ?",new String[] {itemId});
-    }
 }

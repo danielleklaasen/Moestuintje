@@ -24,7 +24,7 @@ public class SpecieActivity extends AppCompatActivity{
         // database connection
         mSpecieDataSource = new SpecieDataSource(this);
         mSpecieDataSource.open();
-        mSpecieDataSource.seedDatabase(specieItemList);
+        mSpecieDataSource.seedDatabase(specieItemList); // seed Database, if there is nothing in it yet
 
         List<SpecieItem> listFromDB = mSpecieDataSource.getAllItems(null);
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, listFromDB);
@@ -48,7 +48,7 @@ public class SpecieActivity extends AppCompatActivity{
     @Override
     protected void onPause() {
         super.onPause();
-        mSpecieDataSource.close();
+        mSpecieDataSource.close(); // prevent data leaks
     }
 
     @Override

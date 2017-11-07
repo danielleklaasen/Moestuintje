@@ -5,8 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBHelper extends SQLiteOpenHelper {
-    public static final String DB_FILE_NAME = "myGarden.db";
-    public static final int DB_VERSION = 1; // increment by 1 for newer versions
+    public static final String DB_FILE_NAME = "myGarden.db"; // setting db file name
+    public static final int DB_VERSION = 1; // can only be initialized once (final)
 
     public DBHelper(Context context) {
         super(context, DB_FILE_NAME, null, DB_VERSION);
@@ -17,7 +17,6 @@ public class DBHelper extends SQLiteOpenHelper {
         // adding tables
         db.execSQL(SpecieTable.SQL_CREATE);
         db.execSQL(CultivatedPlantTable.SQL_CREATE);
-
     }
 
     @Override

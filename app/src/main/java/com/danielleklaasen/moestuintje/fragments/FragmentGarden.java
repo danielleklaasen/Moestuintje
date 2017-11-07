@@ -41,7 +41,7 @@ public class FragmentGarden extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Database connection
+        // Database connection to cultivatedplant table
         mCultivatedPlantDataSource = new CultivatedPlantDataSource(getActivity());
         mCultivatedPlantDataSource.open();
 
@@ -51,18 +51,17 @@ public class FragmentGarden extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Bundle bundle = getArguments(); do something with this later
 
         // set up page from fragment_page_layout xml file
         View rootView = inflater.inflate(R.layout.fragment_garden_layout, container, false);
 
         // Initialise the GridView
-        GridAdapter adapter = new GridAdapter(getActivity(), listFromDB);
+        GridAdapter adapter = new GridAdapter(getActivity(), listFromDB); // instantiate adapter and feed db items
         gridView = rootView.findViewById(gridviewContainer);
         gridView.setAdapter(adapter);
 
-        // complete page
+        // return complete page
         return rootView;
 
     }
@@ -70,12 +69,12 @@ public class FragmentGarden extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        mCultivatedPlantDataSource.close();
+        mCultivatedPlantDataSource.close(); // prevent data leaks
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mCultivatedPlantDataSource.open();
+        mCultivatedPlantDataSource.open(); // open connection again when resuming activity
     }
 }
